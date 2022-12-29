@@ -1,0 +1,698 @@
+CombatFunction
+
+void CombatSystem(string P1, string P2, int& P1Health, int P2Health, int P1Speed, int P2Speed, int P1Att, int P2Att, int Selection, bool& DidYouWin)
+{
+	{
+		vector<string> combat{ P1, P2, P1, P2, P1, P2 };
+		vector<string> combatSpeedy{ P1, P1, P2, P1, P1, P2 };
+		vector<string> combatSlow{ P2, P1, P2, P1, P2, P1 };
+		//vector<string> combatSuperSlow{ P2, P2, P1,P2, P2, P1 }; NOT IMPLEMENTED YET
+		string xx;
+		bool SpeedySelection(false);
+		bool combatSlowSelection(false);
+		//bool combatSuperSlowSelection(false); NOT IMPLEMENTED YET
+
+
+		do
+		{
+			if (P1Health <= 0)
+			{
+				printf("You have died!!\n");
+				DidYouWin = false;
+				break;
+			}
+			else if (P2Health <= 0)
+			{
+				printf("You win!!\n");
+				DidYouWin = true;
+				break;
+			}
+			else if (P1Speed >= (P2Speed * 2))
+			{
+				SpeedySelection = true;
+				for (int i = 0; i <= 5; ++i)
+					cout << "==" << combatSpeedy[i] << "==" << endl;
+			}
+
+			else if (P1Speed >= P2Speed)
+			{
+				for (int i = 0; i <= 5; ++i)
+					cout << "==" << combat[i] << "==" << endl;
+			}
+			else if (P2Speed > P1Speed)
+			{
+				combatSlowSelection = true;
+				for (int i = 0; i <= 5; ++i)
+					cout << "==" << combatSlow[i] << "==" << endl;
+			}
+
+			if (SpeedySelection == false && combatSlowSelection == false)
+			{
+				for (int z = 0; z < 1; ++z)
+				{
+					combat[z];
+
+					xx = combat[z];
+				}
+			}
+			else if (SpeedySelection == true)
+			{
+				for (int z = 0; z < 1; ++z)
+				{
+					combatSpeedy[z];
+
+					xx = combatSpeedy[z];
+				}
+			}
+			else if (combatSlowSelection == true)
+			{
+				for (int z = 0; z < 1; ++z)
+				{
+					combatSlow[z];
+
+					xx = combatSlow[z];
+
+				}
+
+			}
+
+
+
+			if (xx == P1)
+
+			{
+				printf("Your turn to make an action\n");
+
+				printf("Press 1 to attack\n");
+				printf("Press 2 to skip\n");
+				printf("Selection: ");
+				cin >> Selection;
+
+				if (Selection == 1)
+				{
+					P2Health = P2Health - P1Att;
+					cout << P2 << "'s health is now: " << P2Health << endl;
+				}
+				else
+				{
+					printf("You pass your turn!\n");
+				}
+				if (SpeedySelection == false && combatSlowSelection == false)
+				{
+					combat.erase(combat.begin());
+					combat.push_back(P1);
+				}
+				else if (SpeedySelection == true)
+				{
+					combatSpeedy.erase(combatSpeedy.begin());
+					combatSpeedy.push_back(P1);
+				}
+				else if (combatSlowSelection == true)
+				{
+					combatSlow.erase(combatSlow.begin());
+					combatSlow.push_back(P1);
+				}
+
+			}
+			else if (xx == P2)
+			{
+				//printf("%d's turn!\n", P2); ERROR: PRINTS POINTER LOCATION
+				cout << P2 << "'s turn!\n";
+				P1Health = P1Health - P2Att;
+				cout << "Your health is now: " << P1Health << "\n" << endl;
+				cout << "Press 1 to continue\n" << endl;
+				printf("Selection: ");
+				cin >> Selection;
+
+
+				if (SpeedySelection == false && combatSlowSelection == false)
+				{
+					combat.erase(combat.begin());
+					combat.push_back(P2);
+				}
+				else if (SpeedySelection == true)
+				{
+					combatSpeedy.erase(combatSpeedy.begin());
+					combatSpeedy.push_back(P2);
+				}
+				else if (combatSlowSelection == true)
+				{
+					combatSlow.erase(combatSlow.begin());
+					combatSlow.push_back(P2);
+				}
+
+			}
+
+		} while (Selection != 9);
+
+		printf("Returning to main menu\n");
+
+		int main();
+
+	}
+
+
+}
+
+
+Generate Enemies Function 
+
+extern unique_ptr <Player> Character;
+
+extern int LvlUpVar;
+
+vector <Enemy> Roster{};
+vector <Enemy> PawnRoster{};
+
+void LvlUp(int);
+
+void GenEnemies()
+{
+	//Generates Nemesis  
+	unique_ptr <Enemy> E1 = make_unique <Enemy> ("E1");
+	int NemesisRoll{};
+	int NemesisLvlRoll{};
+
+	//Randomly Generates a Nemesis
+	NemesisRoll = rand() % 9 + 1;
+
+	if (NemesisRoll < 4)
+	{
+		E1->PlayerName = E1->NemesisName.at(0);
+	}
+	else if (NemesisRoll > 3 && NemesisRoll < 7)
+	{
+		E1->PlayerName = E1->NemesisName.at(1);
+	}
+	else
+	{
+		E1->PlayerName = E1->NemesisName.at(2);
+	}
+	
+	//Randomly Generates 5 minions 
+	NemesisLvlRoll = rand() % 5 + 1;
+	if (NemesisLvlRoll == 1)
+	{
+		E1->PlayerLevel = E1->NemesisLvl.at(0);
+		E1->PlayerHP = E1->NemesisHealth.at(0);
+		E1->PlayerAtt = E1->NemesisAttack.at(0);
+		E1->PlayerSpeed = E1->NemesisSpeed.at(0);
+		E1->PlayerEXP = E1->NemesisEXP.at(0);
+	}
+	else if (NemesisLvlRoll == 2)
+	{
+		E1->PlayerLevel = E1->NemesisLvl.at(1);
+		E1->PlayerHP = E1->NemesisHealth.at(1);
+		E1->PlayerAtt = E1->NemesisAttack.at(1);
+		E1->PlayerSpeed = E1->NemesisSpeed.at(1);
+		E1->PlayerEXP = E1->NemesisEXP.at(1);
+	}
+	else if (NemesisLvlRoll == 3)
+	{
+		E1->PlayerLevel = E1->NemesisLvl.at(2);
+		E1->PlayerHP = E1->NemesisHealth.at(2);
+		E1->PlayerAtt = E1->NemesisAttack.at(2);
+		E1->PlayerSpeed = E1->NemesisSpeed.at(2);
+		E1->PlayerEXP = E1->NemesisEXP.at(2);
+	}
+	else if (NemesisLvlRoll == 4)
+	{
+		E1->PlayerLevel = E1->NemesisLvl.at(3);
+		E1->PlayerHP = E1->NemesisHealth.at(3);
+		E1->PlayerAtt = E1->NemesisAttack.at(3);
+		E1->PlayerSpeed = E1->NemesisSpeed.at(3);
+		E1->PlayerEXP = E1->NemesisEXP.at(3);
+	}
+	else
+	{
+		E1->PlayerLevel = E1->NemesisLvl.at(4);
+		E1->PlayerHP = E1->NemesisHealth.at(4);
+		E1->PlayerAtt = E1->NemesisAttack.at(4);
+		E1->PlayerSpeed = E1->NemesisSpeed.at(4);
+		E1->PlayerEXP = E1->NemesisEXP.at(4);
+	}
+	Roster.emplace_back(*E1);
+	
+	//Generates Pawns
+
+	int PawnNameRoll{};
+	int PawnLvlRoll{};
+
+	unique_ptr <Enemy> P1 = make_unique <Enemy>("P1");
+	PawnRoster.emplace_back(*P1);
+	unique_ptr <Enemy> P2 = make_unique <Enemy>("P2");
+	PawnRoster.emplace_back(*P2);
+	unique_ptr <Enemy> P3 = make_unique <Enemy>("P3");
+	PawnRoster.emplace_back(*P3);
+	unique_ptr <Enemy> P4 = make_unique <Enemy>("P4");
+	PawnRoster.emplace_back(*P4);
+	unique_ptr <Enemy> P5 = make_unique <Enemy>("P5");
+	PawnRoster.emplace_back(*P5);
+
+	vector<Enemy>::iterator ptr;
+
+	for (ptr = PawnRoster.begin(); ptr < PawnRoster.end(); ptr++)
+	{
+		PawnNameRoll = rand() % 3 + 1;
+		if (PawnNameRoll == 1)
+		{
+			ptr->PlayerName = ptr->PawnName.at(0);
+		}
+		else if (PawnNameRoll == 2)
+		{
+			ptr->PlayerName = ptr->PawnName.at(1);
+		}
+		else
+		{
+			ptr->PlayerName = ptr->PawnName.at(2);
+		}
+
+		PawnLvlRoll = rand() % 5 + 1;
+		if (PawnLvlRoll == 1)
+		{
+			ptr->PlayerLevel = ptr->PawnLvl.at(0);
+			ptr->PlayerHP = ptr->PawnHealth.at(0);
+			ptr->PlayerAtt = ptr->PawnAttack.at(0);
+			ptr->PlayerSpeed = ptr->PawnSpeed.at(0);
+			ptr->PlayerEXP = ptr->PawnEXP.at(0);
+		}
+		else if (PawnLvlRoll == 2)
+		{
+			ptr->PlayerLevel = ptr->PawnLvl.at(1);
+			ptr->PlayerHP = ptr->PawnHealth.at(1);
+			ptr->PlayerAtt = ptr->PawnAttack.at(1);
+			ptr->PlayerSpeed = ptr->PawnSpeed.at(1);
+			ptr->PlayerEXP = ptr->PawnEXP.at(1);
+		}
+		else if (PawnLvlRoll == 3)
+		{
+			ptr->PlayerLevel = ptr->PawnLvl.at(2);
+			ptr->PlayerHP = ptr->PawnHealth.at(2);
+			ptr->PlayerAtt = ptr->PawnAttack.at(2);
+			ptr->PlayerSpeed = ptr->PawnSpeed.at(2);
+			ptr->PlayerEXP = ptr->PawnEXP.at(2);
+		}
+		else if (PawnLvlRoll == 4)
+		{
+			ptr->PlayerLevel = ptr->PawnLvl.at(3);
+			ptr->PlayerHP = ptr->PawnHealth.at(3);
+			ptr->PlayerAtt = ptr->PawnAttack.at(3);
+			ptr->PlayerSpeed = ptr->PawnSpeed.at(3);
+			ptr->PlayerEXP = ptr->PawnEXP.at(3);
+		}
+		else 
+		{
+			ptr->PlayerLevel = ptr->PawnLvl.at(4);
+			ptr->PlayerHP = ptr->PawnHealth.at(4);
+			ptr->PlayerAtt = ptr->PawnAttack.at(4);
+			ptr->PlayerSpeed = ptr->PawnSpeed.at(4);
+			ptr->PlayerEXP = ptr->PawnEXP.at(4);
+		}
+	}
+}
+
+void EnemyRoster()
+{
+	for (size_t i = 0; i < Roster.size(); i++)
+	{
+		cout << Roster.at(i) << endl;
+	}
+
+	for (size_t j = 0; j < PawnRoster.size(); j++)
+	{
+		cout << PawnRoster.at(j) << endl;
+	}
+}
+
+void LvlUp(int LvlUpVar)
+{
+	vector<Enemy>::iterator lvl = PawnRoster.begin();
+
+	if (LvlUpVar == 1)
+	{
+		
+		if (lvl->PlayerLevel == 1)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(1);
+			lvl->PlayerHP = lvl->PawnHealth.at(1);
+			lvl->PlayerAtt = lvl->PawnAttack.at(1);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(1);
+			lvl->PlayerEXP = lvl->PawnEXP.at(1);
+		}
+		else if (lvl->PlayerLevel == 2)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(2);
+			lvl->PlayerHP = lvl->PawnHealth.at(2);
+			lvl->PlayerAtt = lvl->PawnAttack.at(2);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(2);
+			lvl->PlayerEXP = lvl->PawnEXP.at(2);
+		}
+		else if (lvl->PlayerLevel == 3)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(3);
+			lvl->PlayerHP = lvl->PawnHealth.at(3);
+			lvl->PlayerAtt = lvl->PawnAttack.at(3);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(3);
+			lvl->PlayerEXP = lvl->PawnEXP.at(3);
+		}
+		else if (lvl->PlayerLevel == 4)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(4);
+			lvl->PlayerHP = lvl->PawnHealth.at(4);
+			lvl->PlayerAtt = lvl->PawnAttack.at(4);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(4);
+			lvl->PlayerEXP = lvl->PawnEXP.at(4);
+		}
+		else 
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(5);
+			lvl->PlayerHP = lvl->PawnHealth.at(5);
+			lvl->PlayerAtt = lvl->PawnAttack.at(5);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(5);
+			lvl->PlayerEXP = lvl->PawnEXP.at(5);
+		}
+	}
+	else if (LvlUpVar == 2)
+	{
+		advance(lvl, 1);
+		if (lvl->PlayerLevel == 1)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(1);
+			lvl->PlayerHP = lvl->PawnHealth.at(1);
+			lvl->PlayerAtt = lvl->PawnAttack.at(1);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(1);
+			lvl->PlayerEXP = lvl->PawnEXP.at(1);
+		}
+		else if (lvl->PlayerLevel == 2)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(2);
+			lvl->PlayerHP = lvl->PawnHealth.at(2);
+			lvl->PlayerAtt = lvl->PawnAttack.at(2);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(2);
+			lvl->PlayerEXP = lvl->PawnEXP.at(2);
+		}
+		else if (lvl->PlayerLevel == 3)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(3);
+			lvl->PlayerHP = lvl->PawnHealth.at(3);
+			lvl->PlayerAtt = lvl->PawnAttack.at(3);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(3);
+			lvl->PlayerEXP = lvl->PawnEXP.at(3);
+		}
+		else if (lvl->PlayerLevel == 4)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(4);
+			lvl->PlayerHP = lvl->PawnHealth.at(4);
+			lvl->PlayerAtt = lvl->PawnAttack.at(4);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(4);
+			lvl->PlayerEXP = lvl->PawnEXP.at(4);
+		}
+		else
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(5);
+			lvl->PlayerHP = lvl->PawnHealth.at(5);
+			lvl->PlayerAtt = lvl->PawnAttack.at(5);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(5);
+			lvl->PlayerEXP = lvl->PawnEXP.at(5);
+		}
+	}
+	else if (LvlUpVar == 3)
+	{
+		advance(lvl, 2);
+		if (lvl->PlayerLevel == 1)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(1);
+			lvl->PlayerHP = lvl->PawnHealth.at(1);
+			lvl->PlayerAtt = lvl->PawnAttack.at(1);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(1);
+			lvl->PlayerEXP = lvl->PawnEXP.at(1);
+		}
+		else if (lvl->PlayerLevel == 2)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(2);
+			lvl->PlayerHP = lvl->PawnHealth.at(2);
+			lvl->PlayerAtt = lvl->PawnAttack.at(2);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(2);
+			lvl->PlayerEXP = lvl->PawnEXP.at(2);
+		}
+		else if (lvl->PlayerLevel == 3)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(3);
+			lvl->PlayerHP = lvl->PawnHealth.at(3);
+			lvl->PlayerAtt = lvl->PawnAttack.at(3);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(3);
+			lvl->PlayerEXP = lvl->PawnEXP.at(3);
+		}
+		else if (lvl->PlayerLevel == 4)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(4);
+			lvl->PlayerHP = lvl->PawnHealth.at(4);
+			lvl->PlayerAtt = lvl->PawnAttack.at(4);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(4);
+			lvl->PlayerEXP = lvl->PawnEXP.at(4);
+		}
+		else
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(5);
+			lvl->PlayerHP = lvl->PawnHealth.at(5);
+			lvl->PlayerAtt = lvl->PawnAttack.at(5);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(5);
+			lvl->PlayerEXP = lvl->PawnEXP.at(5);
+		}
+	}
+	else if (LvlUpVar == 4)
+	{
+		advance(lvl, 3);
+		if (lvl->PlayerLevel == 1)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(1);
+			lvl->PlayerHP = lvl->PawnHealth.at(1);
+			lvl->PlayerAtt = lvl->PawnAttack.at(1);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(1);
+			lvl->PlayerEXP = lvl->PawnEXP.at(1);
+		}
+		else if (lvl->PlayerLevel == 2)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(2);
+			lvl->PlayerHP = lvl->PawnHealth.at(2);
+			lvl->PlayerAtt = lvl->PawnAttack.at(2);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(2);
+			lvl->PlayerEXP = lvl->PawnEXP.at(2);
+		}
+		else if (lvl->PlayerLevel == 3)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(3);
+			lvl->PlayerHP = lvl->PawnHealth.at(3);
+			lvl->PlayerAtt = lvl->PawnAttack.at(3);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(3);
+			lvl->PlayerEXP = lvl->PawnEXP.at(3);
+		}
+		else if (lvl->PlayerLevel == 4)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(4);
+			lvl->PlayerHP = lvl->PawnHealth.at(4);
+			lvl->PlayerAtt = lvl->PawnAttack.at(4);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(4);
+			lvl->PlayerEXP = lvl->PawnEXP.at(4);
+		}
+		else
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(5);
+			lvl->PlayerHP = lvl->PawnHealth.at(5);
+			lvl->PlayerAtt = lvl->PawnAttack.at(5);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(5);
+			lvl->PlayerEXP = lvl->PawnEXP.at(5);
+		}
+	}
+	else //On a 5 role (last slot in the PawnRoster
+	{
+		advance(lvl, 4);
+		if (lvl->PlayerLevel == 1)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(1);
+			lvl->PlayerHP = lvl->PawnHealth.at(1);
+			lvl->PlayerAtt = lvl->PawnAttack.at(1);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(1);
+			lvl->PlayerEXP = lvl->PawnEXP.at(1);
+		}
+		else if (lvl->PlayerLevel == 2)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(2);
+			lvl->PlayerHP = lvl->PawnHealth.at(2);
+			lvl->PlayerAtt = lvl->PawnAttack.at(2);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(2);
+			lvl->PlayerEXP = lvl->PawnEXP.at(2);
+		}
+		else if (lvl->PlayerLevel == 3)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(3);
+			lvl->PlayerHP = lvl->PawnHealth.at(3);
+			lvl->PlayerAtt = lvl->PawnAttack.at(3);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(3);
+			lvl->PlayerEXP = lvl->PawnEXP.at(3);
+		}
+		else if (lvl->PlayerLevel == 4)
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(4);
+			lvl->PlayerHP = lvl->PawnHealth.at(4);
+			lvl->PlayerAtt = lvl->PawnAttack.at(4);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(4);
+			lvl->PlayerEXP = lvl->PawnEXP.at(4);
+		}
+		else
+		{
+			lvl->PlayerLevel = lvl->PawnLvl.at(5);
+			lvl->PlayerHP = lvl->PawnHealth.at(5);
+			lvl->PlayerAtt = lvl->PawnAttack.at(5);
+			lvl->PlayerSpeed = lvl->PawnSpeed.at(5);
+			lvl->PlayerEXP = lvl->PawnEXP.at(5);
+		}
+	}
+
+
+	printf("New Level Value Set Successfully!\n");
+}
+
+Maps Function 
+
+#include <iostream>
+#include <list>
+#include <deque>
+#include <vector>
+
+#include "Player.h"
+#include "Enemy.h"
+
+using namespace std;
+
+int selection{};
+
+extern unique_ptr <Player> Character;
+
+void HomeTown();
+void BillysBigBobaBungalow();
+
+
+//Global Var for map 
+string Position{ "You" };
+string Grass{ "=Grass=" };
+
+template <typename T>
+void display(const list<T>& l)
+{
+	cout << "==[";
+	for (const auto& elem : l)
+	{
+		cout << elem << " ";
+	}
+	cout << "]==";
+}
+
+void WorldMap()
+{
+	
+	list<string> WorldMap{Position, Grass, Grass, Grass, Grass };
+
+	do
+	{
+		printf("[Hometown]");
+		display(WorldMap);
+		printf("[Billy's Big Boba Bungalow]\n");
+		printf("Press 1 to move LEFT\n");
+		printf("Press 2 to move Right\n");
+		printf("Press 3 to see enemy roster\n");
+
+		cin >> selection;
+
+		if (selection == 1)
+		{
+			auto it = find(WorldMap.begin(), WorldMap.end(), Position);
+			if (it == WorldMap.begin())
+			{
+				printf("You have reached your Hometown!\n");
+				HomeTown();
+			}
+			else
+			{
+				auto it = find(WorldMap.begin(), WorldMap.end(), Position);
+				if (it != WorldMap.end())
+				{
+					WorldMap.insert(it--, Grass);
+					WorldMap.erase(it++);
+					WorldMap.insert(it++, Position);
+					WorldMap.erase(it);
+				}
+			}
+
+
+		}
+		else if (selection == 2)
+		{
+			if (WorldMap.back() == Position)
+			{
+				printf("You have reached Billy's Big Boba Bungalo!");
+				BillysBigBobaBungalow();
+			}
+			else
+			{
+				auto it = find(WorldMap.begin(), WorldMap.end(), Position);
+				if (it != WorldMap.end())
+				{
+					WorldMap.insert(it++, Position);
+					WorldMap.erase(it--);
+					WorldMap.insert(it--, Grass);
+					WorldMap.erase(it);
+				}
+			}
+
+		}
+		else if (selection == 3)
+		{
+		}
+
+
+
+	} while (selection != 9);
+
+}
+
+void HomeTown()
+{
+	do
+	{
+		printf("Press 1 to do this\n");
+		printf("Press 2 to return to World Map\n");
+		cin >> selection;
+
+		if (selection == 2)
+		{
+			WorldMap();
+		}
+		else
+		{
+			printf("Please enter a valid entry!\n");
+		}
+
+
+	} while (selection != 9);
+}
+void BillysBigBobaBungalow()
+{
+	do
+	{
+		printf("Press 1 to do this\n");
+		printf("Press 2 to return to World Map\n");
+		cin >> selection;
+
+		if (selection == 2)
+		{
+			WorldMap();
+		}
+		else
+		{
+			printf("Please enter a valid entry!\n");
+		}
+
+
+	} while (selection != 9);
+}
