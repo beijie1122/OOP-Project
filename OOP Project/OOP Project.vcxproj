@@ -143,6 +143,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Maps.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="QuestBase.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="TurnBasedCombat.cpp" />
   </ItemGroup>
@@ -151,7 +152,11 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Maps.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="QuestBase.h" />
     <ClInclude Include="TurnBasedCombat.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="QuestNames.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

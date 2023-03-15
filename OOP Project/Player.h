@@ -19,6 +19,9 @@ public:
 	int PlayerAtt{};
 	int PlayerLevel{};
 
+	int EnemyRecycleIdentifier{};
+	int NemesisRecycleIdentifier{};
+
 
 	//No-args Constructor
 	Player();
@@ -29,6 +32,8 @@ public:
 	virtual void SetPlayerLevel(int PlayerEXP, int PlayerLevel);
 
 	virtual void HUD();
+
+	virtual void EnemyCombatHUD();
 
 	//bool operator==(const Player& rhs) const
 	//{

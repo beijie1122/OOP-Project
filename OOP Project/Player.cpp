@@ -1,11 +1,12 @@
 #include "Player.h"
 #include <ctime>
+#include <iomanip>
 
 //No-args Constructor
 
 ostream& operator<<(ostream& os, const Player& e)
 {
-	os <<"NAME: " << e.PlayerName << " LEVEL: " << e.PlayerLevel << " HP: " << e.PlayerHP << " ATT: " << e.PlayerAtt << " SPD: " << e.PlayerSpeed << endl;
+	os <<"NAME: " << e.PlayerName << " LEVEL: " << e.PlayerLevel << " HP: " << e.PlayerHP << " ATT: " << e.PlayerAtt << " SPD: " << e.PlayerSpeed <<  endl;
 	return os;
 }
 
@@ -45,13 +46,26 @@ void Player::SetPlayerLevel(int PlayerEXP, int PlayerLevel)
 
 void Player::HUD()
 {
-	printf("==========\n");
-	cout << "=Name: " << PlayerName << endl;
-	printf("=Level: %d\n", PlayerLevel);
-	printf("=Att: %d\n", PlayerAtt);
-	printf("=Spd: %d\n", PlayerSpeed);
-	printf("=EXP: %d\n", PlayerEXP);
-	printf("==========\n");
+	cout << '*' << setfill('=');
+	cout << setw(65)<< '*' << endl;
+	cout << " Name: " << PlayerName;
+	printf("||Level: %d ", PlayerLevel);
+	printf("||HP: %d ", PlayerHP);
+	printf("||Att: %d ", PlayerAtt);
+	printf("||Spd: %d ", PlayerSpeed);
+	printf("||EXP: %d \n", PlayerEXP);
+	cout << '*' << setfill('=');
+	cout << setw(65) << '*' << endl;
+}
+
+void Player::EnemyCombatHUD()
+{
+	cout << '*' << setfill('=');
+	cout << setw(40) << '*' << endl;
+	cout << " Enemy Name: " << PlayerName;
+	printf(" || Enemy HP: %d \n", PlayerHP);
+	cout << '*' << setfill('=');
+	cout << setw(40) << '*' << endl;
 }
 
 Player::~Player()

@@ -10,18 +10,10 @@
 #include "CharacterPlayer.h"
 #include "TurnBasedCombat.h"
 #include "Maps.h"
+#include "QuestBase.h"
 
 
 using namespace std;
-
-void WorldMap();
-
-//Global Variables
-
-//Selection variable (Used everywhere where Cin is used)
-int Selection{};
-
-
 
 int main()
 {
@@ -32,44 +24,18 @@ int main()
 
 	unique_ptr <Enemy> PP = make_unique<Enemy>("PP");
 	PP->SpawnTable();
-	PP->DisplaySpawnTable();
 
 	unique_ptr <TurnBasedCombat> TBC = make_unique <TurnBasedCombat>();
+
+	unique_ptr<Maps> Map1 = make_unique<Maps>();
+
+	unique_ptr<QuestBase> QuestOverview = make_unique<QuestBase>();
+	QuestOverview->InitializeQuests();
+	QuestOverview->DisplayQuestDetails();
 	
-	do
-	{
-		Character->CheckIfLvlUp(Character->PlayerEXP, Character->PlayerLevel, Character->LevelIdentifier);
-		printf("==========\n");
-		printf("Welcome to the Main Menu\n");
-		printf("Press 1 to start an encounter\n");
-		printf("Press 2 to see stats\n");
-		printf("Press 3 to see the enemy roster\n");
-		printf("Press 4 to view world map\n");
-		printf("==========\n");
-
-		cin >> Selection;
-
-		if (Selection == 1)
-		{
-			TBC->CheckSpeed(Character, PP);
-
-			PP->DisplaySpawnTable();
-		}
-
-		if (Selection == 2)
-		{
-			Character->HUD();
-		}
-
-		if (Selection == 4)
-		{
-			unique_ptr<Maps> Map1 = make_unique <Maps>();
-			Map1->InitMap2(Character, PP, TBC);
-			Map1->InitCombat(Character, PP, TBC);
-		}
-		
-	} while (Selection != 9);
-
+	//PP->DisplaySpawnTable();
+	
+	Map1->HomeTownMenu(Map1, Character, PP, TBC);
 
 	return 1;
 }

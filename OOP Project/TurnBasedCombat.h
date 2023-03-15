@@ -20,6 +20,12 @@ public:
 
 	int LvlUpEnemySetter{};
 
+	int PostCombatSpawnNemesisOrSpawnRoll{};
+
+	int NemesisLevelCarryOverVar{};
+
+	int CombatSelection{};
+
 	bool PlayerWins{};
 
 	bool EnemyWins{};
@@ -28,11 +34,17 @@ public:
 
 	void CheckSpeed(unique_ptr<CharacterPlayer> &arg1, unique_ptr<Enemy> &arg2);
 
+	void CombatLoop(unique_ptr<CharacterPlayer>& arg1, unique_ptr<Enemy>& arg2, vector<Enemy>::iterator& obj, int CombatSelection);
+
+	void NemesisCombatLoop(unique_ptr<CharacterPlayer>& arg1, unique_ptr<Enemy>& arg2, vector<Enemy>::iterator& obj, int CombatSelection);
+
 	void DisplayCombatOrder(vector<string> CombatOrder);
 
-	void CheckHealthDuringCombat(unique_ptr<CharacterPlayer>& arg1, vector<Enemy>::iterator &obj);
+	void CheckHealthDuringCombat(unique_ptr<CharacterPlayer>& arg1, unique_ptr<Enemy> &arg2, vector<Enemy>::iterator &obj);
 
 	void LevelUpEnemy(vector<Enemy>::iterator &obj, unique_ptr<Enemy> &arg1);
+
+	int InputValidationCheck(int& arg1);
 
 
 	//OVERLOADED == OPERATOR

@@ -10,13 +10,19 @@ public:
 
     int EXPEarned{};
 
+    int NameRoll{};
+    int LvlRoll{};
+ 
 
-    vector <string> NemesisName{ "Thorok", "Kassadin", "Blitz" };
-    vector<int> NemesisLvl{ 1,2,3,4,5 };
-    vector<int> NemesisHealth{ 20, 40, 60, 80, 100 };
-    vector<int> NemesisSpeed{ 5, 10, 15, 20, 25 };
-    vector<int> NemesisAttack{ 10, 20, 30, 40, 50 };
-    vector<int> NemesisEXP{ 10, 20, 30, 40, 50 };
+
+    vector <string> NemesisName{};
+    vector<int> NemesisLvl{};
+    vector<int> NemesisHealth{};
+    vector<int> NemesisSpeed{};
+    vector<int> NemesisAttack{};
+    vector<int> NemesisEXP{};
+    vector<int> NemesisUniquePtrName{};
+    vector<int> NemesisUniquePtrNameRecycleVec;
 
     vector<string> PawnName;
     vector<int> PawnLvl;
@@ -25,10 +31,13 @@ public:
     vector<int> PawnAttack;
     vector<int> PawnEXP;
     vector<int> PawnUniquePtrName;
+    vector<int> PawnUniquePtrNameRecycleVec;
 
     int UniquePtrName{};
 
     vector<Enemy> EnemyList{};
+
+    vector<Enemy> NemesisList{};
 
     Enemy();
 
@@ -42,7 +51,11 @@ public:
 
     void CheckAndRegenSpawnTable();
 
+    void SpawnNemesisViaCombatEnemyDeath(int v);
 
+    void CheckAndRecyclePawnUniquePtrNameVector();
+
+    void CheckAndRecycleNemesisUniquePtrNameVector();
 
     ~Enemy();
 

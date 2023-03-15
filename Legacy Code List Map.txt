@@ -1,0 +1,98 @@
+void Maps::display(list<string> const& Map2)
+{
+	cout << "[||";
+	for (auto const& i : Map2)
+	{
+		cout << i << "||";
+	}
+	cout << "]" << " ";
+}
+
+
+void Maps::InitMap2(unique_ptr <CharacterPlayer>& Character, unique_ptr <Enemy>& PP, unique_ptr<TurnBasedCombat>& TBC, unique_ptr<Maps> & Map1)
+{
+	P1 = { " You " };
+	P2 = { "Grass" };
+	if (IsStartPointBigBillys == false)
+	{
+		Map2 = { P1, P2, P2, P2, P2 };
+	}
+	else
+	{
+		Map2 = { P2, P2, P2, P2, P1 };
+	}
+	
+	EventPoint1 = { "Hometown" };
+	EventPoint2 = { "Billy's Big Boba Bungalow" };
+
+	do
+	{
+		cout << EventPoint1 << " ";
+		display(Map2);
+		cout << EventPoint2 << endl;
+		Character->CheckIfLvlUp(Character->PlayerEXP, Character->PlayerLevel, Character->LevelIdentifier);
+		Character->HUD();
+		printf("=====================\n");
+		printf("Press 1 to move LEFT\n");
+		printf("Press 2 to move Right\n");
+		printf("Press 3 to see Enemy List\n");
+		printf("=====================\n");
+		cin >> selection;
+
+		//MapsInputValidation(selection);
+
+		if (selection == 1)
+		{
+			auto it = find(Map2.begin(), Map2.end(), P1);
+			if(it == Map2.begin())
+			{
+				printf("Arrived at HomeTown!\n");
+				IsStartPointBigBillys = false;
+				HomeTownMenu(Map1, Character, PP, TBC);
+			}
+			else
+			{
+				auto it = find(Map2.begin(), Map2.end(), P1);
+				if (it != Map2.end())
+				{
+					Map2.insert(it--, P2);
+					Map2.erase(it++);
+					Map2.insert(it++, P1);
+					Map2.erase(it);
+					InitCombat(Character, PP, TBC);
+					
+				}
+			}
+		}
+		else if (selection == 2)
+		{
+			if (Map2.back() == P1)
+			{
+				printf("You have reached Billy's Big Boba Bungalow!\n");
+				IsStartPointBigBillys = true;
+				BillysBigBobaBungalowMenu(Map1, Character, PP, TBC);
+			}
+			else
+			{
+				auto ot = find(Map2.begin(), Map2.end(), P1);
+				if (ot != Map2.end())
+				{
+					Map2.insert(ot++, P1);
+					Map2.erase(ot--);
+					Map2.insert(ot--, P2);
+					Map2.erase(ot);
+					InitCombat(Character, PP, TBC);
+				}
+			}
+		}
+		else if (selection == 3)
+		{
+			PP->DisplaySpawnTable();
+		}
+		else
+		{
+			printf("Press enter a correct entry!\n");
+		}
+
+	} while (selection != 9);
+}

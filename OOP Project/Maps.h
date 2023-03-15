@@ -14,25 +14,60 @@ class Maps
 public:
 
 	int selection{};
-	string P1{};
-	string P2{};
 
-	string EventPoint1{};
-	string EventPoint2{};
+	bool IsStartPointBigBillys{};
 
 	int EncounterRoll{};
 
-	vector<vector<string>> Map1{};
 
-	list<string> Map2{};
+	//General Map Component Coords and Names 
+	char DirectionSelectionInput{};
+	string GrassNode{ "Grass " };
+	int PlayerXValue{};
+	int PlayerYValue{};
+	string PlayerNode{ "*YOU* " };
+	int VectorColumn{ 5 };
+	int VectorRow{ 5 };
 
-	void display(list<string> const &Map2);
+	//First Map Component Coords and Names 
+	string HomeTown{};
+	int HomeTownXValue{};
+	int HomeTownYValue{};
+
+	string BillysBigBobbaBungalow{};
+	int BBBBXValue{};
+	int BBBBYValue{};
+
+
+	vector<vector<string>> NewMap{VectorColumn, vector<string>(VectorRow)};
 
 	Maps();
 
 	void InitCombat(unique_ptr <CharacterPlayer>& arg1, unique_ptr <Enemy>& arg2, unique_ptr<TurnBasedCombat>& arg3);
 
-	void InitMap2(unique_ptr <CharacterPlayer>& arg1, unique_ptr <Enemy>& arg2, unique_ptr<TurnBasedCombat>& arg3);
+	//Integrate New Map Functions
+
+	void GenerateNewMap(vector<vector<string>>&, int, int, string);
+
+	void DisplayNewMap(vector<vector<string>>, int, int);
+
+	void NewMapInit(unique_ptr <CharacterPlayer>& arg1, unique_ptr <Enemy>& arg2, unique_ptr<TurnBasedCombat>& arg3, unique_ptr<Maps>& arg4, int & arg5, int & arg6);
+
+	void DisplayOutofBoundsMessage();
+
+	void GenerateHomeTownBBBBMap(vector <vector<string>> &, string&, int&, int&, string&, int&, int&);
+
+	void DidPlayerArriveAtLocation(int, int, int, int, int, int, unique_ptr<Maps> & arg1, unique_ptr<CharacterPlayer>& arg2, unique_ptr<Enemy>& arg3, unique_ptr<TurnBasedCombat>& arg4);
+
+	//Integrate New Map Functions
+
+	void HomeTownMenu(unique_ptr<Maps> &arg1, unique_ptr<CharacterPlayer> &arg2, unique_ptr<Enemy> &arg3, unique_ptr<TurnBasedCombat> &arg4);
+
+	void BillysBigBobaBungalowMenu(unique_ptr<Maps>& arg1, unique_ptr<CharacterPlayer>& arg2, unique_ptr<Enemy>& arg3, unique_ptr<TurnBasedCombat>& arg4);
+
+	int MapsInputValidation(int &selection);
+
+	char MapsCharInputValidation(char& DirectionSelectionInput);
 
 	~Maps();
 

@@ -696,3 +696,67 @@ void BillysBigBobaBungalow()
 
 	} while (selection != 9);
 }
+
+BASE INT MAIN()
+
+	do
+	{
+
+		for (size_t j = 0; j < PP->PawnUniquePtrName.size(); j++)
+		{
+			cout << PP->PawnUniquePtrName.at(j) << " ";
+		}
+		cout << endl;
+
+		for (size_t i = 0; i < PP->PawnUniquePtrNameRecycleVec.size(); i++)
+		{
+			cout << PP->PawnUniquePtrNameRecycleVec.at(i) << " ";
+		}
+		cout << endl;
+
+		Character->CheckIfLvlUp(Character->PlayerEXP, Character->PlayerLevel, Character->LevelIdentifier);
+		printf("==========\n");
+		printf("Welcome to the Main Menu\n");
+		printf("Press 1 to start an encounter\n");
+		printf("Press 2 to see stats\n");
+		printf("Press 3 to see the enemy roster\n");
+		printf("Press 4 to view world map\n");
+		printf("==========\n");
+
+		cin >> Selection;
+
+		//Data validation to check for int
+		while (1)
+		{
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				printf("Please enter a valid number\n");
+				cin >> Selection;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		if (Selection == 1)
+		{
+			TBC->CheckSpeed(Character, PP);
+
+			PP->DisplaySpawnTable();
+		}
+
+		if (Selection == 4)
+		{
+			Map1->InitMap2(Character, PP, TBC, Map1);
+			//Map1->InitCombat(Character, PP, TBC);
+		}
+		else 
+		{
+			printf("Please enter a valid choice.\n");
+		}
+		
+	} while (Selection != 9);
+
